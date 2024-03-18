@@ -7,12 +7,28 @@ exports.handler = async (event) => {
 
     // Check if groupId is provided
     if (!groupId) {
-        return { statusCode: 400, body: JSON.stringify({ message: 'groupId is required', action: 'createGroup' }) };
+        return { 
+            statusCode: 400, 
+            body: JSON.stringify({ message: 'groupId is required', action: 'createGroup' }),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST"
+            }  
+        };
     }
 
     // Check if maxMembers is provided and is a number
     if (!maxMembers || typeof maxMembers !== 'number') {
-        return { statusCode: 400, body: JSON.stringify({ message: 'maxMembers is required and must be a number', action: 'createGroup' }) };
+        return { 
+            statusCode: 400, 
+            body: JSON.stringify({ message: 'maxMembers is required and must be a number', action: 'createGroup' }),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST"
+            }  
+        };
     }
 
     const newGroup = {
