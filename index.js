@@ -31,10 +31,10 @@ exports.handler = async (event) => {
         };
     }
 
-    if (!userId) {
+    if (!creatorId) {
         return { 
             statusCode: 400, 
-            body: JSON.stringify({ message: 'userId is required', action: 'createGroup' }),
+            body: JSON.stringify({ message: 'creatorId is required', action: 'createGroup' }),
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Headers": "Content-Type",
@@ -50,7 +50,7 @@ exports.handler = async (event) => {
         groupName,
         usersConnected: [],
         messages: [],
-        membersList: [userId],
+        membersList: [creatorId],
         maxMembers
     };
 
