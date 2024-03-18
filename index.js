@@ -25,9 +25,24 @@ exports.handler = async (event) => {
 
     try {
         await dynamoDb.put({ TableName: groupsTableName, Item: newGroup }).promise();
-        return { statusCode: 200, body: JSON.stringify({ message: 'Group created successfully.', action: 'createGroup', groupId: groupId }) };
+        return { 
+            statusCode: 200, 
+            body: JSON.stringify({ message: 'Group created successfully.', action: 'createGroup', groupId: groupId }),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST"
+            }  
+        };
     } catch (err) {
         console.error('Error creating group:', err);
-        return { statusCode: 500, body: JSON.stringify({ message: 'Failed to create group', action: 'createGroup' }) };
+        return { statusCode: 500,
+            body: JSON.stringify({ message: 'Failed to create group', action: 'createGroup' }),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST"
+            }  
+        };
     }
 };
