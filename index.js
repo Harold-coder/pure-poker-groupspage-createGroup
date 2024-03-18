@@ -5,7 +5,7 @@ const groupsTableName = process.env.GROUPS_TABLE;
 const { v4: uuidv4 } = require('uuid'); // Ensure you have uuid installed in your lambda environment
 
 exports.handler = async (event) => {
-    const { groupName, maxMembers } = JSON.parse(event.body);
+    const { groupName, maxMembers, creatorId } = JSON.parse(event.body);
 
     if (!groupName) {
         return { 
@@ -31,6 +31,18 @@ exports.handler = async (event) => {
         };
     }
 
+    if (!userId) {
+        return { 
+            statusCode: 400, 
+            body: JSON.stringify({ message: 'userId is required', action: 'createGroup' }),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST"
+            }  
+        };
+    }
+
     const groupId = uuidv4(); // Generate a unique ID for the group
 
     const newGroup = {
@@ -38,7 +50,7 @@ exports.handler = async (event) => {
         groupName,
         usersConnected: [],
         messages: [],
-        membersList: [],
+        membersList: [userId],
         maxMembers
     };
 
